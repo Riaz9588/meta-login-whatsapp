@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- Include the Facebook Pixel code -->
+    <!-- Replace 'YOUR-FACEBOOK-PIXEL-ID' with your actual Facebook Pixel ID -->
+    <script>
+        !(function (f, b, e, v, n, t, s) {
+            if (f.fbq) return;
+            n = f.fbq = function () {
+                n.callMethod
+                    ? n.callMethod.apply(n, arguments)
+                    : n.queue.push(arguments);
+            };
+            if (!f._fbq) f._fbq = n;
+            n.push = n;
+            n.loaded = !0;
+            n.version = "2.0";
+            n.queue = [];
+            t = b.createElement(e);
+            t.async = !0;
+            t.src = v;
+            s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s);
+        })(
+            window,
+            document,
+            "script",
+            "https://connect.facebook.net/en_US/fbevents.js"
+        );
+        fbq("init", "YOUR-FACEBOOK-PIXEL-ID");
+        fbq("track", "PageView");
+    </script>
+
+    <!-- Facebook SDK code -->
+    <script>
+        window.fbAsyncInit = function () {
+            // JavaScript SDK configuration and setup
+            FB.init({
+                appId: "5945756412144301",
+                cookie: true, // enable cookies
+                xfbml: true, // parse social plugins on this page
+                version: "v18.0" // Graph API version
+            });
+        };
+
+        // Load the JavaScript SDK asynchronously
+        (function (d, s, id) {
+            var js,
+                fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        })(document, "script", "facebook-jssdk");
+
+        // Facebook Login with JavaScript SDK
+        function launchWhatsAppSignup() {
+            // Conversion tracking code
+            fbq &&
+                fbq("trackCustom", "WhatsAppOnboardingStart", {
+                    appId: "5945756412144301",
+                    feature: "whatsapp_embedded_signup"
+                });
+
+            // Launch Facebook login
+            FB.login(
+                function (response) {
+                    if (response.authResponse) {
+                        const code = response.authResponse.code;
+                        console.log("response", response);
+                    } else {
+                        console.log("User cancelled login or did not fully authorize.");
+                    }
+                },
+                {
+                    config_id: "1534260530675925", // configuration ID goes here
+                    response_type: "code", // must be set to 'code' for System User access token
+                    override_default_response_type: true, // when true, any response types passed in the "response_type" will take precedence over the default types
+                    scope:
+                        "whatsapp_business_management, instagram_basic, instagram_manage_comments, instagram_manage_messages, pages_show_list, pages_read_user_content, pages_messaging, pages_manage_engagement, whatsapp_business_messaging, pages_read_engagement",
+                    extras: {
+                        setup: {
+                            sessionInfoVersion: 2 //  Receive Session Logging Info
+                        }
+                    }
+                }
+            );
+        }
+    </script>
+</head>
+
+<body>
+    <button onclick="launchWhatsAppSignup()">Launch WhatsApp Signup</button>
+</body>
+
+</html>
